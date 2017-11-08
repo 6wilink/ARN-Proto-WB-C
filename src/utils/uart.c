@@ -5,6 +5,7 @@
  *      Author: Qige <qigezhao@gmail.com>
  */
 
+#include <stdio.h>
 #include <unistd.h>
 #include <termios.h>
 #include <fcntl.h>
@@ -53,10 +54,10 @@ int uartOpen(const char *dev, const unsigned long speed)
     //opt.c_lflag |= (ICANON | ECHO | ECHOE | ISIG);
 
     //opt.c_oflag &= ~OPOST;
-    //opt.c_oflag &= ~(INLCR | IGNCR | ICRNL | ONLCR | OCRNL);
+    opt.c_oflag &= ~(INLCR | IGNCR | ICRNL | ONLCR | OCRNL); // 706
 
-    //opt.c_iflag &= ~IXON;	// v1.5 WYY
-    //opt.c_iflag &= ~IXOFF;	// v1.5 WYY
+    opt.c_iflag &= ~IXON; // 706, v1.5 WYY
+    opt.c_iflag &= ~IXOFF; // 706, v1.5 WYY
     //opt.c_iflag &= ~INLCR;
     //opt.c_iflag &= ~IGNCR;
 

@@ -4,6 +4,7 @@
  *  Created on: Nov 6, 2017
  *      Author: Qige <qigezhao@gmail.com>
  */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -11,9 +12,11 @@
 
 #include <getopt.h>
 #include <signal.h>
+#include <syslog.h>
 
-#include "include/wb2x.h"
-#include "include/utils/daemon.h"
+#include "wb2x.h"
+#include "utils/daemon.h"
+#include "utils/time.h"
 
 // app version, help
 static void appHelp(const char *self);
@@ -50,7 +53,7 @@ int main(int argc, char **argv)
 			env.speed = (int) atoi(optarg);
 			break;
 		case 'I':
-			env.idle = (int) atoi(optarg);
+			env.interval = (int) atoi(optarg);
 			break;
 		default:
 			printf(" * using default settings\n");
@@ -70,20 +73,31 @@ int main(int argc, char **argv)
 	if (env.flag.debug)
 		appVersion(env.self);
 
-	if (env.flag.daemon)
+	if (env.flag.daemon) {
+		DBG(" * run as service\n");
 		runDaemon();
+	}
 
 	// these params must valid when running
-	if (strlen(env.device) < 1)
-		snprintf(env.device, sizeof(env.device), "%s", WB_DEFAULT_DEVICE);
-	if (env.speed < 1)
-		env.speed = WB_DEFAULT_SPEED;
-
-	if (env.idle < 1)
-		env.idle = WB_DEFAULT_IDLE;
-
 	env.pid = getpid();
+	if (strlen(env.device) < 1) {
+		DBG(" * using default device %s\n", WB_DEFAULT_DEVICE);
+		snprintf(env.device, sizeof(env.device), "%s", WB_DEFAULT_DEVICE);
+	}
+	if (env.speed < 1) {
+		DBG(" * using default speed %d\n", WB_DEFAULT_SPEED);
+		env.speed = WB_DEFAULT_SPEED;
+	}
+
+	if (env.interval < 1) {
+		DBG(" * using default interval %d\n", WB_DEFAULT_INTERVAL);
+		env.interval = WB_DEFAULT_INTERVAL;
+	}
+
+	DBG(" # start main task (pid %d)\n", env.pid);
+	LOG("ARN-WB %d started at %s", env.pid, currentDateTime());
 	ret = ARNProtoWb(&env);
+	LOG("ARN-WB %d stopped at %s", env.pid, currentDateTime());
 	return ret;
 }
 

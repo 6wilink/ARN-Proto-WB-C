@@ -9,5 +9,6 @@
 #define SYS_H_
 
 void sysExecute(const char *cmd);
+char *sysCommand(const char *cmd);
 
 #endif /* SYS_H_ */
