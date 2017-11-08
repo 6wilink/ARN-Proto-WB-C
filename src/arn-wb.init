@@ -1,0 +1,31 @@
+#!/bin/sh /etc/rc.common
+
+START=90
+STOP=90
+
+APP=arn-wb
+CONF=/etc/config/$APP
+CMD=/usr/sbin/$APP
+
+uci_conf() {
+	local conf="$1"
+
+    config_get device "$conf" device
+    config_get speed "$conf" speed
+    config_get interval "$conf" interval
+	$CMD -F $device -S $speed -I $interva -D >/dev/null 2>&1 &
+}
+
+start() {
+	if [ -f $CONF ]; then
+		config_load $CONF
+		config_foreach uci_conf $APP
+	else
+		echo "* config file missing (default)"
+		$CMD -D >/dev/null 2>&1
+	fi
+}
+
+stop() {
+	killall $APP
+}
