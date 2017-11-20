@@ -44,7 +44,7 @@ int ARNProtoWb(const struct appConf *env)
 	}
 
 	// idle when system just online
-	sleep(10);
+	//sleep(10);
 
 	// main loop
 	DBG(" --# major loop\n");
@@ -89,7 +89,7 @@ static int ARNProtoWbServ(const int uartFd)
 		memset(cmd, 0x0, sizeof(cmd));
 		bFound = WBParse(buffer, sizeof(buffer), cmd, sizeof(cmd));
 		if (bFound) {
-			DBG("cmd [%s] found! end byte %d\n", cmd, bFound);
+			printf("cmd [%s] found! end byte %d\n", cmd, bFound);
 			WBParseCmd(cmd);
 		}
 	}
@@ -106,7 +106,7 @@ static int ARNProtoWbReport(const int uartFd)
 	memset(msg, 0x00, sizeof(msg));
 	b = WBReport(msg, sizeof(msg));
 	if (b > 0) {
-		DBG("report [%s] sent! %d bytes\n", msg, b);
+		printf("report [%s] sent! %d bytes\n", msg, b);
 		uartWrite(uartFd, msg, strlen(msg));
 	}
 

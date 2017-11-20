@@ -1,13 +1,14 @@
 # 6Harmonics Inc.
 # by Qige: qige@6harmonics.com, qige.zhao@6wilink.com
 # 2016.10.27/2016.11.09
+# 2017.11.20
 
 include $(TOPDIR)/rules.mk
 
 APP_NAME:=arn-wb
 PKG_NAME:=arn-proto-wb
 PKG_VERSION:=3.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -20,7 +21,7 @@ define Package/$(PKG_NAME)
 endef
 
 define Package/$(PKG_NAME)/description
-  Service for LCD Controller, depends on libgws2.
+  Service for LCD Controller, depends on libgws2, arn-scripts.
 endef
 
 

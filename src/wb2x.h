@@ -28,6 +28,8 @@ fprintf(stderr, "> %s", _bf); syslog(LOG_INFO, "%s", _bf); }
 #define WB_DEFAULT_CMD_LENGTH	32
 #define WB_DEFAULT_PROTO_LENGTH 128
 
+#define WB_DEFAULT_PEER_QTY		5
+
 
 // app environment
 enum {

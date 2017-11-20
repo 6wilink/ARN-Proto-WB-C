@@ -134,17 +134,17 @@ int WBParseCmd(const char *wbCmd)
 int WBReport(char *buffer, const unsigned int bufferLength)
 {
 	unsigned int b = -1, msgLength = 0;
-	char msg[WB_DEFAULT_PROTO_LENGTH];
+	char msg[WB_DEFAULT_PROTO_LENGTH+1];
 
 	// init ABB & Radio
 	gws2Sync();
 
-	int i, val, signal[5], noise, barNoise;
-	for(i = 0; i < sizeof(signal); i ++)
+	int i, val, signal[WB_DEFAULT_PEER_QTY], noise, barNoise;
+	for(i = 0; i < WB_DEFAULT_PEER_QTY; i ++)
 	{
 		noise = gws2AbbNoise();
-		val = gws2AbbPeer(i);
 		if (i) {
+			val = gws2AbbPeerSignal(i);
 			barNoise = noise < GWS_BAR_VAL ? noise : GWS_BAR_VAL;
 			if (val && val > barNoise) {
 				signal[i] = val + 110;
@@ -164,6 +164,7 @@ int WBReport(char *buffer, const unsigned int bufferLength)
 			gws2RadioTxPwr(), gws2AbbMode(),
 			gws2RadioRgn(), gws2RadioChanBw(), gws2RadioRxGain(),
 			signal[0], signal[1], signal[2], signal[3], signal[4],
+			//signal[1], signal[2], signal[3], signal[4], signal[5],
 			gws2SysIpAddr(), gws2SysHwArch()
 	);
 
