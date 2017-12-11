@@ -2,13 +2,14 @@
 # by Qige: qige@6harmonics.com, qige.zhao@6wilink.com
 # 2016.10.27/2016.11.09
 # 2017.11.20
+# 2017.12.11 v3.1-6
 
 include $(TOPDIR)/rules.mk
 
 APP_NAME:=arn-wb
 PKG_NAME:=arn-proto-wb
-PKG_VERSION:=3.0
-PKG_RELEASE:=3
+PKG_VERSION:=3.1
+PKG_RELEASE:=7
 
 include $(INCLUDE_DIR)/package.mk
 
