@@ -118,6 +118,9 @@ int WBParseCmd(const char *wbCmd)
 			case 2:
 				gws2CmdAbbModeAp();
 				break;
+			case 3:
+				gws2CmdAbbModeAdHoc();
+				break;
 			default:
 				printf("----> unknown mode: %d\n", val);
 				break;
@@ -176,4 +179,3 @@ int WBReport(char *buffer, const unsigned int bufferLength)
 
 	return b;
 }
-
