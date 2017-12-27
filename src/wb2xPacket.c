@@ -142,15 +142,15 @@ int WBReport(char *buffer, const unsigned int bufferLength)
 	// init ABB & Radio
 	gws2Sync();
 
-	int i, val, signal[WB_DEFAULT_PEER_QTY], noise, barNoise;
+	int i, val, signal[WB_DEFAULT_PEER_QTY], noise, safeNoise;
+	noise = gws2AbbNoise();
+	safeNoise = noise < GWS_BAR_VAL ? noise : GWS_BAR_VAL;
 	for(i = 0; i < WB_DEFAULT_PEER_QTY; i ++)
 	{
-		noise = gws2AbbNoise();
 		if (i) {
 			val = gws2AbbPeerSignal(i);
-			barNoise = noise < GWS_BAR_VAL ? noise : GWS_BAR_VAL;
-			if (val && val > barNoise) {
-				signal[i] = val + 110;
+			if (val && val > safeNoise) {
+				signal[i] = val - safeNoise;
 			} else {
 				signal[i] = 0;
 			}
